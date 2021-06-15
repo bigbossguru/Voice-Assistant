@@ -42,8 +42,8 @@ def send_email(title, msg, host):
     server.ehlo()
     if 'google' in host: server.starttls()
     message = 'Subject: {}\n\n{}'.format(title,msg)
-    server.login('egazizov.eldar@yandex.ru', '7S6JVN9ppr')
-    server.sendmail(from_addr='egazizov.eldar@yandex.ru', to_addrs='egazizov.eldar@yandex.ru', msg=message)
+    server.login('egzov.eldar@yandex.ru', 'Hook1234')
+    server.sendmail(from_addr='egzov.eldar@yandex.ru', to_addrs='egzov.eldar@yandex.ru', msg=message)
     server.close()
 
 def speak(audio=None):
