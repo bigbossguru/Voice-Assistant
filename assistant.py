@@ -2,6 +2,8 @@ import pyttsx3
 from datetime import datetime
 import speech_recognition as sr
 from lib_conf import eemail
+import wikipedia
+import webbrowser as wb
 
 # global variables
 speed_speech = 120
@@ -12,26 +14,42 @@ def main():
     speak("Hello Sir!, How are you?")
     try:
         while True:
-            query = take_command()
-            if 'time' in query:
-                time_and_date()
-            elif 'bad' in query:
-                speak('I love you')
-            elif 'fine' in query:
-                speak('Ok, Baby')
-            elif 'send email' in query:
-                try:
-                    speak('Who should I write tell me the name')
-                    name = take_command()
-                    speak('What should I write?')
-                    content = take_command()
-                    eemail.send_email(title='Email from Voice Assistant', name=name, msg=content, host='yandex')
-                    speak('Sent good')
-                except Exception as e:
-                    speak(e)
-
-            elif 'exit' in query:
-                exit()
+            try:
+                query = take_command()
+                if 'time' in query:
+                    time_and_date()
+                elif 'bad' in query:
+                    speak('I love you')
+                elif 'fine' in query:
+                    speak('Ok, Baby')
+                elif 'wikipedia' in query:
+                    speak('Searching...')
+                    query = query.replace('wikipedia', '')
+                    result = wikipedia.summary(query, sentences=2)
+                    speak(result)
+                elif 'search internet' in query:
+                    wb.register('chrome', None, wb.BackgroundBrowser("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"))
+                    query = query.replace('search internet', '')
+                    url = "https://www.google.com.tr/search?q={}".format(query)
+                    wb.get('chrome').open(url=url)
+                elif 'send email' in query:
+                    try:
+                        speak('Who should I write tell me the name')
+                        name = take_command()
+                        speak('What should I write?')
+                        content = take_command()
+                        eemail.send_email(title='Email from Voice Assistant', name=name, msg=content, host='yandex')
+                        speak('Sent good')
+                    except Exception as e:
+                        speak(e)
+                elif 'help' in query:
+                    speak('Tell you, what I can do')
+                    speak('Listen')
+                    speak("wikipedia, send email, search internet, time or date")
+                elif 'exit' in query:
+                    exit()
+            except Exception as e:
+                continue
     except KeyboardInterrupt: print('Stop Voice Assistant')
 
 def speak(audio=None):
@@ -74,7 +92,7 @@ def take_command():
         print("Recognizing...")
         query = voice_recognition.recognize_google(audio_data=audio, language='en-US')
         print(query)
-        return query
+        return query.lower()
     except Exception as e:
         print(e)
         speak("Say that again please...")
