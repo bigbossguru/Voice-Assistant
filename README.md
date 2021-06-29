@@ -21,3 +21,7 @@ pip install pipwin
 ```
 pipwin install pyaudio
 ```
+## Run Voice Assistant
+```
+python assistant.py
+```
