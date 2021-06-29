@@ -1,50 +1,37 @@
 import pyttsx3
 from datetime import datetime
 import speech_recognition as sr
-import smtplib
+import eemail
 
 # global variables
 speed_speech = 120
 
-
 # main function 
 def main():
-    # speak("Hello Elvera, How are you?")
-    
-    send_email('Hello Test', 'Hello workld, good', 'yandex')
+    # First greeting
+    speak("Hello Sir!, How are you?")
 
-    while False:
+    while True:
         query = take_command()
-        if 'good' in query:
-            speak('Have a nice day')
+        if 'time' in query:
+            time_and_date()
         elif 'bad' in query:
             speak('I love you')
         elif 'fine' in query:
             speak('Ok, Baby')
         elif 'send email' in query:
             try:
-                speak('What should I say?')
+                speak('Who should I write tell me the name')
+                name = take_command()
+                speak('What should I write?')
                 content = take_command()
-                send_email(content)
+                eemail.send_email(title='Email from Voice Assistant', name=name, msg=content, host='yandex')
                 speak('Sent good')
             except Exception as e:
                 speak(e)
 
         elif 'exit' in query:
             exit()
-
-def send_email(title, msg, host):
-    dict_smtp = {
-        'google': {'smtp':'smtp.google.com', 'port': 587},
-        'yandex': {'smtp':'smtp.yandex.ru', 'port': 465}
-    }
-    server = smtplib.SMTP_SSL(dict_smtp['yandex']['smtp'], dict_smtp['yandex']['port'])
-    server.ehlo()
-    if 'google' in host: server.starttls()
-    message = 'Subject: {}\n\n{}'.format(title,msg)
-    server.login('egzov.eldar@yandex.ru', 'Hook1234')
-    server.sendmail(from_addr='egzov.eldar@yandex.ru', to_addrs='egzov.eldar@yandex.ru', msg=message)
-    server.close()
 
 def speak(audio=None):
 
@@ -78,7 +65,7 @@ def time_and_date():
 
 def take_command():
     voice_recognition = sr.Recognizer()
-    with sr.Microphone(device_index=1) as source:
+    with sr.Microphone(device_index=1) as source: #device_index=1 find index in mic.py
         print("Listening...")
         voice_recognition.pause_threshold = 1
         audio = voice_recognition.listen(source)
