@@ -1,7 +1,7 @@
 import pyttsx3
 from datetime import datetime
 import speech_recognition as sr
-import eemail
+from lib_conf import eemail
 
 # global variables
 speed_speech = 120
@@ -10,28 +10,29 @@ speed_speech = 120
 def main():
     # First greeting
     speak("Hello Sir!, How are you?")
+    try:
+        while True:
+            query = take_command()
+            if 'time' in query:
+                time_and_date()
+            elif 'bad' in query:
+                speak('I love you')
+            elif 'fine' in query:
+                speak('Ok, Baby')
+            elif 'send email' in query:
+                try:
+                    speak('Who should I write tell me the name')
+                    name = take_command()
+                    speak('What should I write?')
+                    content = take_command()
+                    eemail.send_email(title='Email from Voice Assistant', name=name, msg=content, host='yandex')
+                    speak('Sent good')
+                except Exception as e:
+                    speak(e)
 
-    while True:
-        query = take_command()
-        if 'time' in query:
-            time_and_date()
-        elif 'bad' in query:
-            speak('I love you')
-        elif 'fine' in query:
-            speak('Ok, Baby')
-        elif 'send email' in query:
-            try:
-                speak('Who should I write tell me the name')
-                name = take_command()
-                speak('What should I write?')
-                content = take_command()
-                eemail.send_email(title='Email from Voice Assistant', name=name, msg=content, host='yandex')
-                speak('Sent good')
-            except Exception as e:
-                speak(e)
-
-        elif 'exit' in query:
-            exit()
+            elif 'exit' in query:
+                exit()
+    except KeyboardInterrupt: print('Stop Voice Assistant')
 
 def speak(audio=None):
 

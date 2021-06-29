@@ -1,5 +1,5 @@
 import smtplib, ssl
-import config
+from lib_conf import config
 
 def send_email(title, name, msg, host):
     dict_smtp = {
