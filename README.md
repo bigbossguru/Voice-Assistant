@@ -1,2 +1,2 @@
-# AI-Assistant
-Artificial Intelligence Assistant With Python
+# Voice Assistant
+Smart Voice Assistant with Python
