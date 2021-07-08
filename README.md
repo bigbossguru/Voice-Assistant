@@ -1,6 +1,6 @@
 # Voice Assistant
 Smart Voice Assistant with Python and Raspberry pi
-
+![PI](https://github.com/call1010/Voice-Assistant/blob/main/pi.jpg)
 ## Install Python version 3.7.9
 
 ### Install and activate virtual environment
