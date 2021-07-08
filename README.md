@@ -1,5 +1,5 @@
 # Voice Assistant
-Smart Voice Assistant with Python
+Smart Voice Assistant with Python and Raspberry pi
 
 ## Install Python version 3.7.9
 
